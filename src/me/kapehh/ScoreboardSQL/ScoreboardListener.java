@@ -1,5 +1,6 @@
 package me.kapehh.ScoreboardSQL;
 
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -21,6 +23,12 @@ public class ScoreboardListener implements Listener {
     protected static final String SB_NAME = "SQLStats";
     protected static final String DUMMY_CRITERIA = "dummy";
     protected static final String PREFFIX_SCORE = ChatColor.GREEN + "" + ChatColor.BOLD;
+
+    Economy economy;
+
+    public ScoreboardListener(ScoreboardSQL plugin) {
+        economy = plugin.getEconomy();
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -37,6 +45,11 @@ public class ScoreboardListener implements Listener {
         objective.setDisplayName(ChatColor.BOLD + player.getName() + " - " + ChatColor.RED + "" + ChatColor.BOLD + map.get("prefix").toString());
 
         Score score;
+
+        if (economy != null) {
+            score = objective.getScore(PREFFIX_SCORE + "Динарий");
+            score.setScore((int) economy.getBalance(player.getName()));
+        }
 
         score = objective.getScore(PREFFIX_SCORE + "Убийства");
         score.setScore((Integer) map.get("kills"));

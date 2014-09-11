@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by Karen on 10.09.2014.
  */
 public class ScoreDB {
-    private static ScoreDB scoreDB;
+    private static ScoreDB scoreDB = null;
 
     public static ScoreDB getInstance() {
         return scoreDB;
@@ -46,6 +46,10 @@ public class ScoreDB {
 
     public Map<String, Object> getScore(Player player) {
         try {
+            if (connection == null) {
+                return null;
+            }
+
             boolean isNull = true;
             HashMap<String, Object> map = new HashMap<String, Object>();
             PreparedStatement sql = connection.prepareStatement("SELECT * FROM player WHERE name=?");
