@@ -1,0 +1,4 @@
+ScoreboardSQL
+=============
+
+Использует PluginManager, Vault
