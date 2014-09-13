@@ -2,3 +2,7 @@ name: ScoreboardSQL
 main: me.kapehh.ScoreboardSQL.ScoreboardSQL
 author: kapehh
 version: 1.0.0
+commands:
+    scoreboard:
+        description: Scoreboard
+        usage: /<command> toggle
