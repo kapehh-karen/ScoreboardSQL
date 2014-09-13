@@ -20,19 +20,10 @@ import java.util.Map;
  * Created by Karen on 10.09.2014.
  */
 public class ScoreboardListener implements Listener {
-    protected static final String SB_NAME = "SQLStats";
-    protected static final String DUMMY_CRITERIA = "dummy";
-    protected static final String PREFFIX_SCORE = ChatColor.GREEN + "" + ChatColor.BOLD;
-
-    Economy economy;
-
-    public ScoreboardListener(ScoreboardSQL plugin) {
-        economy = plugin.getEconomy();
-    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        /*Player player = event.getPlayer();
         Map<String, Object> map = ScoreDB.getInstance().getScore(player);
 
         if (map == null) {
@@ -60,15 +51,15 @@ public class ScoreboardListener implements Listener {
         score = objective.getScore(PREFFIX_SCORE + "Мобов");
         score.setScore((Integer) map.get("mobs"));
 
-        player.setScoreboard(objective.getScoreboard());
+        player.setScoreboard(objective.getScoreboard());*/
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
+        /*Player player = event.getPlayer();
         if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
             player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
             player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        }
+        }*/
     }
 }

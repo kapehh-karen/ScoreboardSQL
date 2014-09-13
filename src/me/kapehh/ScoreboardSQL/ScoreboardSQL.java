@@ -57,7 +57,7 @@ public class ScoreboardSQL extends JavaPlugin { // TODO: Добавить ком
 
         economy = PluginVault.setupEconomy();
 
-        getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(), this);
 
         pluginConfig = new PluginConfig(this);
         pluginConfig.addEventClasses(this).setup().loadData();
