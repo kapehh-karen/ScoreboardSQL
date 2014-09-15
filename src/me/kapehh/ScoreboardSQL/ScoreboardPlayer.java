@@ -20,7 +20,7 @@ import java.util.Map;
 public class ScoreboardPlayer extends BukkitRunnable {
     protected static final String SB_NAME = "SQLStats";
     protected static final String DUMMY_CRITERIA = "dummy";
-    protected static final String PREFFIX_SCORE = ChatColor.GREEN + "" + ChatColor.BOLD;
+    protected static final String PREFFIX_SCORE = ChatColor.GREEN + "";
 
     List<Player> players;
     Economy economy;
@@ -100,12 +100,12 @@ public class ScoreboardPlayer extends BukkitRunnable {
             remove(player);
             objective = create(player);
         }
-        objective.setDisplayName(ChatColor.BOLD + player.getName() + " - " + ChatColor.RED + "" + ChatColor.BOLD + map.get("prefix").toString());
+        objective.setDisplayName("[Звание: " + map.get("prefix").toString() + "]");
 
         Score score;
 
         if (economy != null) {
-            score = objective.getScore(PREFFIX_SCORE + "Динарий");
+            score = objective.getScore(PREFFIX_SCORE + "Динарии");
             score.setScore((int) economy.getBalance(player.getName()));
         }
 
