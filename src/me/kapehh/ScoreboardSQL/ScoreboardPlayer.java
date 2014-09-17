@@ -100,7 +100,7 @@ public class ScoreboardPlayer extends BukkitRunnable {
             remove(player);
             objective = create(player);
         }
-        objective.setDisplayName("[Звание: " + map.get("prefix").toString() + "]");
+        objective.setDisplayName("[" + map.get("prefix").toString() + ": " + player.getName() + "]");
 
         Score score;
 
