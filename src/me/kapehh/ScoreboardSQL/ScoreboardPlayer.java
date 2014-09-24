@@ -76,6 +76,7 @@ public class ScoreboardPlayer extends BukkitRunnable {
 
     @Override
     public void run() {
+        ScoreDB.getInstance().updateScore(players);
         for (Player player : players) {
             update(player);
         }
@@ -89,9 +90,14 @@ public class ScoreboardPlayer extends BukkitRunnable {
     }
 
     private void update(Player player) {
-        Map<String, Object> map = ScoreDB.getInstance().getScore(player);
+        if (player == null) {
+            return;
+        }
 
-        if (map == null) {
+        Map<String, Object> map = ScoreDB.getInstance().getScore(player);
+        if (map == null ||
+            !map.containsKey("prefix") || !map.containsKey("kills") ||
+            !map.containsKey("deaths") || !map.containsKey("mobs")) {
             return;
         }
 
@@ -103,7 +109,6 @@ public class ScoreboardPlayer extends BukkitRunnable {
         objective.setDisplayName("[" + map.get("prefix").toString() + ": " + player.getName() + "]");
 
         Score score;
-
         if (economy != null) {
             score = objective.getScore(PREFFIX_SCORE + "Динарии");
             score.setScore((int) economy.getBalance(player.getName()));

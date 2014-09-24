@@ -3,6 +3,7 @@ package me.kapehh.ScoreboardSQL;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +45,60 @@ public class ScoreDB {
         }
     }
 
-    public Map<String, Object> getScore(Player player) {
+    private static String join(List<String> list, String conjunction) {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (String item : list) {
+            if (first)
+                first = false;
+            else
+                sb.append(conjunction);
+            sb.append(item);
+        }
+        return sb.toString();
+    }
+
+    // WAT
+
+    Map<String, Map<String, Object>> cacheScores = new HashMap<String, Map<String, Object>>();
+
+    public void updateScore(List<Player> players) {
         try {
+            if (connection == null || players.size() <= 0) {
+                return;
+            }
+
+            List<String> playersName = new ArrayList<String>();
+            for (Player player : players) {
+                playersName.add("'" + player.getName() + "'");
+            }
+            String arrs = join(playersName, ",");
+            String strSql = "SELECT * FROM player WHERE name IN (" + arrs + ")";
+
+            cacheScores.clear();
+
+            Map<String, Object> map;
+            Statement sql = connection.createStatement();
+
+            ResultSet result = sql.executeQuery(strSql);
+            if (result.next()) {
+                map = new HashMap<String, Object>();
+                map.put("kills", result.getInt("kills"));
+                map.put("deaths", result.getInt("deaths"));
+                map.put("mobs", result.getInt("mobs"));
+                map.put("prefix", result.getString("prefix"));
+                cacheScores.put(result.getString("name"), map);
+            }
+            result.close();
+
+            sql.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<String, Object> getScore(Player player) {
+        /*try {
             if (connection == null) {
                 return null;
             }
@@ -69,7 +122,11 @@ public class ScoreDB {
             return isNull ? null : map;
         } catch (SQLException e) {
             e.printStackTrace();
+        }*/
+        if (!cacheScores.containsKey(player.getName())) {
+            return null;
+        } else {
+            return cacheScores.get(player.getName());
         }
-        return null;
     }
 }
