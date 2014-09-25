@@ -81,7 +81,7 @@ public class ScoreDB {
             Statement sql = connection.createStatement();
 
             ResultSet result = sql.executeQuery(strSql);
-            if (result.next()) {
+            while (result.next()) {
                 map = new HashMap<String, Object>();
                 map.put("kills", result.getInt("kills"));
                 map.put("deaths", result.getInt("deaths"));
