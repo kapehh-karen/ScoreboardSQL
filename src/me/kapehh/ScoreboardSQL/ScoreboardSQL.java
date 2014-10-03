@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class ScoreboardSQL extends JavaPlugin implements Listener, CommandExecutor { // TODO: Добавить команду для скрытия скореборда и релоада
     ScoreboardPlayer scoreboardPlayer;
+    ScoreUpdater scoreUpdater;
     boolean isForce;
     PluginConfig pluginConfig;
     Economy economy;
@@ -54,13 +55,21 @@ public class ScoreboardSQL extends JavaPlugin implements Listener, CommandExecut
             e.printStackTrace();
         }
 
+        int tickspersec = cfg.getInt("timer.ticks", 1000);
         if (scoreboardPlayer != null) {
             scoreboardPlayer.stop(false);
             scoreboardPlayer = new ScoreboardPlayer(this, scoreboardPlayer.getPlayers());
         } else {
             scoreboardPlayer = new ScoreboardPlayer(this);
         }
-        scoreboardPlayer.runTaskTimer(this, 100, cfg.getInt("timer.ticks", 1000));
+        scoreboardPlayer.runTaskTimer(this, 100, tickspersec);
+
+        if (scoreUpdater != null) {
+            scoreUpdater.stop();
+        }
+        scoreUpdater = new ScoreUpdater(this);
+        scoreUpdater.runTaskTimerAsynchronously(this, 50, tickspersec);
+
         getLogger().info("Success run task!");
     }
 

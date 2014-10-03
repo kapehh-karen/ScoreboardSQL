@@ -76,7 +76,7 @@ public class ScoreboardPlayer extends BukkitRunnable {
 
     @Override
     public void run() {
-        ScoreDB.getInstance().updateScore(players);
+        //ScoreDB.getInstance().updateScore(players);
         for (Player player : players) {
             update(player);
         }
