@@ -53,6 +53,10 @@ public class ScoreboardPlayer extends BukkitRunnable {
         }
     }
 
+    public void updatePlayer(Player player) {
+        update(player);
+    }
+
     public void stop() {
         stop(true);
     }
